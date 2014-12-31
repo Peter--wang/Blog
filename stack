@@ -3,4 +3,4 @@ export OS_TENANT_NAME=demo
 export OS_PASSWORD=sws
 export OS_AUTH_URL=http://junohost:5000/v2.0
 
-curl -i --insecure "https://volume.localdomain.com:8776/v2/$TENANT_ID/volumes/43c42dd7-de26-4156-a324-09fcf10d68b2/action" -X POST -H "X-Auth-Project-Id: service" -H "X-Auth-Token: $TOKEN_ID" -H "Content-Type: application/json" -H "Accept: application/json" -H "User-Agent: python-cinderclient" -d '{"os-retype": {"new_type":"sxgtest2", "migration_policy":"on-demand"}}'
+ip-186.100.8.111:3260-iscsi-iqn.2010-10.org.openstack:volume-5c19b00a-e672-4308-9218-35d29e2ed24c-lun-1
