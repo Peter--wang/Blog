@@ -1,0 +1,31 @@
+1.修改/etc/sysconfig/displaymanager 
+
+DISPLAYMANAGER_REMOTE_ACCESS="yes"
+DISPLAYMANAGER_ROOT_LOGIN_REMOTE="yes"
+DISPLAYMANAGER_XSERVER_TCP_PORT_6000_OPEN="yes"
+
+2.相应的配置文件/etc/gdm/custom.conf也会更改成如下样子 
+# GDM configuration storage 
+
+[xdmcp] 
+# SuSEconfig: displaymanager:DISPLAYMANAGER_REMOTE_ACCESS 
+Enable=true 
+Port=177 
+
+[chooser] 
+
+[security] 
+# SuSEconfig: displaymanager:~DISPLAYMANAGER_XSERVER_TCP_PORT_6000_OPEN 
+DisallowTCP=false 
+# SuSEconfig: displaymanager:DISPLAYMANAGER_ROOT_LOGIN_REMOTE 
+AllowRemoteRoot=true 
+
+[debug] 
+
+
+3.然后，更改/etc/X11/xdm/xdm-config，注销掉这一行（在起点加以个!） 
+! DisplayManager.requestPort: 0 
+
+
+4.重启xdm 
+# /etc/init.d/xdm restart 
