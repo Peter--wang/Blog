@@ -1,0 +1,17 @@
+http://wiki.xen.org/wiki/Xen_Serial_Console
+
+串口服务器配置
+串口服务器用于接收目标服务器的串口信息，可以使用长期稳定运行的Linux服务器作为串口服务器，，操作步骤如下：
+使用SSH客户端或在BMC的KVM界面登陆串口服务器，执行：
+ipmitool -I lanplus -H <目标节点BMC的IP> -U <BMC用户名> -P <BMC密码> sol activate | tee -a <串口日志本地存放目录>，
+可以将串口信息同时显示在屏幕上并保存在串口服务器上。
+MN:~ # ipmitool -I lanplus -H 192.100.99.67 -U root -P root sol activate | tee -a /home/bmclog.log
+[SOL Session operational.  Use ~? for help]
+
+
+GRUB加串口和日志的配置
+xen的增加启动参数：
+loglvl=all guest_loglvl=all com1=38400,8n1 console=com1
+
+kernel增加启动参数：
+console=hvc0 earlyprintk=xen
