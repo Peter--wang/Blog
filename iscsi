@@ -1,0 +1,17 @@
+service tgtd start
+tgtadm --lld iscsi --mode target --op new --tid=1 --targetname iqn.2013-07.sds.ginkgo:ws
+tgtadm --lld iscsi --mode logicalunit --op new --tid 1 --lun 1 -b /dev/shm/test
+tgtadm --lld iscsi --mode target --op bind --tid 1 -I ALL
+tgtadm --lld iscsi --mode target --op bind --tid 1 -I 192.168.8.0/24
+tgtadm --lld iscsi --mode account --op new --user ''ws'' --password ''w*963.-+''
+tgtadm --lld iscsi --mode account --op bind --tid 1 --user ''ws''
+tgtadm --lld iscsi --mode target --op show
+
+initiator
+IP=186.100.8.176
+iscsiadm -m discovery -t st -p $IP
+IQN=iqn.2013-07.sds.ginkgo:ws
+iscsiadm -m node --targetname $IQN --portal $IP --op update --name node.session.auth.authmethod --value CHAP
+iscsiadm -m node --targetname $IQN --portal $IP --op update --name node.session.auth.username --value ws
+iscsiadm -m node --targetname $IQN --portal $IP --op update --name node.session.auth.password --value w*963.-+
+iscsiadm -m node --targetname $IQN --portal $IP --login
