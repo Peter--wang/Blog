@@ -4,8 +4,9 @@
     本次研究的主要对象是Open iSCSI（2.0.873）/ Linux（3.11.4）/  Linux SCSI target（1.0.38）
 
  iscsiadmin
-
-    iscsiadmin是提供给用户使用的命令行程序，主要功能就是设置iSCSI的一些相关功能属性，比如发现iqn；设置认证模式、用户名、密码；连接SCSI设备等等。但是iscsiadm又不做具体的工作，它只是把这些信息通过IPC调用传递给iscsid这个服务程序，由iscsid来执行真正的操作。而这里的IPC实际上就是一个本地的socket，iscsid监听这个本地socket，iscsiadm通过这个socket和iscsid交互。
+```
+iscsiadmin是提供给用户使用的命令行程序，主要功能就是设置iSCSI的一些相关功能属性，比如发现iqn；设置认证模式、用户名、密码；连接SCSI设备等等。但是iscsiadm又不做具体的工作，它只是把这些信息通过IPC调用传递给iscsid这个服务程序，由iscsid来执行真正的操作。而这里的IPC实际上就是一个本地的socket，iscsid监听这个本地socket，iscsiadm通过这个socket和iscsid交互。
+```
 iscsid
 
     iscsid可以看做是用户和内核的一个桥梁，它通过mgmt_ipc（本地socket）这个东西和iscsiadm交互，响应用户的请求；利用control_fd（netlink）和内核交互，把用户的指令发送给内核。
