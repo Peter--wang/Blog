@@ -2,17 +2,26 @@ There are outstanding issues we have now with the block protocol:
 Note: I am assuming 64-bit guest/host - as the size’s of the structures change on 32-bit.
 
 A) Segment size is limited to 11 pages. It means we can at most squeeze in 44kB per request. The ring can hold 32 (next power of two below 36) requests, meaning we can do 1.4M of outstanding requests. *DONE by Roger*
+
 B). Producer and consumer index is on the same cache line. In present hardware that means  the reader and writer will compete for the same cacheline causing a ping-pong between sockets.
+
 C). The requests and responses are on the same ring. This again causes the ping-pong between sockets as the ownership of the cache line will shift between sockets.
+
 D). Cache alignment. Currently the protocol is 16-bit aligned. This is awkward as the request and responses sometimes fit within a cacheline or sometimes straddle them.
+
 E). Interrupt mitigation. We are currently doing a kick whenever we are done “processing” the
 ring. There are better ways to do this - and we could use existing network interrupt mitigation techniques to make the code poll when there is a lot of data.
+
 F). Latency. The processing of the request limits us to only do 44kB - which means that a 1MB chunk of data - which on contemporary devices would only use I/O request - would be split up in multiple ‘requests’ inadvertently delaying the processing of said block.
+
 G) Future extensions. DIF/DIX for integrity. There might be other in the future and it would be good to leave space for extra flags TBD.
+
 H). Separate the response and request rings. The current implementation has one thread for one block ring. There is no reason why there could not be two threads - one for responses and one for requests - and especially if they are scheduled on different CPUs. Furthermore this could also be split in multi-queues - so two queues (response and request) on each vCPU. 
 See http://kernel.dk/systor13-final18.pdf and https://lwn.net/Articles/552904/
 *ARIANNA is looking at this*
+
 I). We waste a lot of space on the ring - as we use the ring for both requests and responses. The response structure needs to occupy the same amount of space as the request structure (112 bytes). If the request structure is expanded to be able to fit more segments (say the ‘struct blkif_sring_entry is expanded to ~1500 bytes) that still requires us to have a matching size response structure. We do not need to use that much space for one response. Having a separate response ring would simplify the structures.
+
 J). 32 bit vs 64 bit. Right now the size of the request structure is 112 bytes under 64-bit guest and 102 bytes under 32-bit guest. It is confusing and furthermore requires the host to do extra accounting and processing.
 
 T 
