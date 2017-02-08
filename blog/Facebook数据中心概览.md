@@ -15,6 +15,7 @@ Facebook下一代数据中心概览
 　　在Facebook的数据中心内部，后端分层的服务和程序都是分布式且在逻辑上互联的。这些服务为前段用户提供实时的体验。虽然有不断地优化，但是流量在一年内还是会翻番。
 　　所以支持高速发展的能力将成为设计基础设施的核心理念。同时还要保证网络架构足够精简，易于管理。
 　　如下图，绿色的部分是公网流量的增长速度，红色是内部流量的增长。
+　　
 　　[![](http://img.blog.csdn.net/20170208230623959?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvUGVyZmVjdGVy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)]()
 ####Cluster的局限
 　　传统的数据中心的网络是以Cluster为基础建设的。一个Cluster中部署上百个机架，每个机架里有交换机，并且这些交换机再接入到性能更好的汇聚交换机上。
