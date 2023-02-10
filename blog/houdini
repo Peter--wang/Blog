@@ -1,0 +1,8 @@
+设置中，安卓x86设置，把三个全选上。
+端口映射5555到Android的5555，adb shell进入Android。
+adb执行su，获取root权限
+adb执行curl -o http://dl.android-x86.org/houdini.php?v=9_y /system/etc/houdini9_y.sfs
+回到Android虚拟机里面，打开终端模拟器，再次输入su，接着执行/system/bin/enable_nativebridge
+————————————————
+版权声明：本文为CSDN博主「刘博平」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/lbp0408/article/details/125624354
